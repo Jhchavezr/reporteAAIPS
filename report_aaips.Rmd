@@ -1,0 +1,233 @@
+---
+title: "Promoción Reporte AAIPS"
+author: "Marcha Internacional"
+date: "2025-01-06"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(dplyr)
+library(lubridate)
+library(kableExtra)
+library(ggplot2)
+```
+
+## Lectura de excel
+
+```{r}
+files <- list.files(path = "reportesAAIPS/", full.names = TRUE,recursive = T)
+# files
+# # 
+# df <- read_xlsx(path = paste0(as.character(files[1])),sheet = 1,skip = 6,col_names = T,trim_ws = T,progress = T)
+# # 
+# head(df)
+
+```
+## Integración de base de datos
+
+```{r}
+combined_df1 <- data.frame()
+
+# 
+# # Loop through the files and read them
+for (file in files) {
+  # Read the data ensuring at least 14 columns
+  df <- read_xlsx(
+    path = file,
+    sheet = 1,
+    skip = 6,
+    col_names = TRUE,
+    trim_ws = TRUE,
+    progress = TRUE,
+    col_types = rep("text", min(14, length(readxl::read_xlsx(file, n_max = 1))))
+  )
+
+  # Remove columns containing "NICO" in their names
+  df <- df %>% select(-matches("NICO"))
+
+  print(file)
+  print(names(df))
+
+  # Combine the data
+  combined_df1 <- bind_rows(combined_df1, df)
+}
+
+# Display the combined data frame
+nrow(combined_df1)
+
+tail(combined_df1)
+
+
+colnames(combined_df1) <- c(
+  # "id",                      # "X" 1
+  "folioTramite",            # "FOLIO.DE.TRÁMITE"2
+  "razonSocial",             # "RAZÓN.SOCIAL"3
+  "fechaTramite",            # "FECHA.DE.TRÁMITE"4
+  "volumenAvisoTIGIE",       # "VOLUMEN.DEL.AVISO..UdM.TIGIE."5
+  "fraccionArancelaria",     # "FRACCIÓN.ARANCELARIA"6
+  "descripcionMercancia",    # "DESCRIPCIÓN.DE.LA.MERCANCÍA"7
+  "paisOrigen",              # "PAÍS.DE.ORIGEN"8
+  "paisExportador",          # "PAÍS.EXPORTADOR"9
+  "numeroAviso",             # "NÚMERO.DE.AVISO"10
+  "fechaResolucion",         # "FECHA.DE.RESOLUCIÓN"11
+  "inicioVigencia",          # "INICIO.DE.VIGENCIA"12
+  "finVigencia",             # "FIN.DE.VIGENCIA"13
+  "folioTramite2",
+  "volumenAvisoTIGIE2",      # "VOLUMEN.DEL.AVISO..UdM.TIGIE..1"14
+  "descripcionFraccion"     # "DESCRIPCIÓN.FRACCIÓN"15
+)
+
+names(combined_df1)
+maindf <- combined_df1 %>%
+  mutate(
+   folioTramite = ifelse(is.na(folioTramite),folioTramite2,folioTramite),
+   volumenAvisoTIGIE = ifelse(is.na(volumenAvisoTIGIE),volumenAvisoTIGIE2,volumenAvisoTIGIE),
+   descripcionGral = ifelse(is.na(descripcionMercancia),descripcionFraccion,descripcionMercancia),
+  ) %>%
+  select(
+    -volumenAvisoTIGIE2,
+    -folioTramite2
+  )
+
+
+colSums(is.na(maindf))
+names(maindf)
+write.csv(maindf, "AAIPS_data.csv")
+
+```
+
+## Data Organisation
+
+```{r}
+combined_df <- read.csv("AAIPS_data.csv")
+names(combined_df)
+
+
+combined_df <- combined_df %>%
+  mutate(
+    fechaRes = as.POSIXct(FECHA.DE.RESOLUCIÓN, format = "%d/%m/%Y %H:%M:%S"),
+    fechaTra = as.POSIXct(FECHA.DE.TRÁMITE, format = "%d/%m/%Y %H:%M:%S")
+  ) %>%
+  mutate(
+    ResAnioMes = as.numeric(paste0(year(fechaRes), sprintf("%02d", month(fechaRes)))),
+    TraAnioMes = as.numeric(paste0(year(fechaTra), sprintf("%02d", month(fechaTra)))),
+    tiempoRes = round(difftime(fechaRes,fechaTra, units = "days"),0),
+    anioTra = as.numeric(year(fechaTra)),
+    mesTra =as.numeric(month(fechaTra))
+  )
+# Estudio sobre los tiempos de resolución de trámites de AAIPS
+# Relación con razón social, fracción arancelaria, año, etc.
+
+result_df <- combined_df %>%
+  group_by(TraAnioMes, anioTra, mesTra) %>%
+  summarise(
+    tramites = n()
+  ) %>%
+  as.data.frame()
+  
+
+result_df %>%
+    rbind(., c("Total", "Anio","Mes", sum(as.numeric(.[,4])))) %>%
+  kbl(col.names = c("Periodo", "Anio", "Mes", "Cantidad de AAIPS")) %>%
+  kableExtra::kable_classic()
+
+g <- ggplot(result_df, aes(x = as.POSIXct(mesTra, format = "%m"), y = as.numeric(tramites), group = as.character(anioTra), color = as.character(anioTra))) +
+  geom_line(linewidth = 1) +                          # Add a line with grouping by anioTra
+  geom_point(size = 2) +                              # Points for visibility
+  labs(
+    title = "Evolución de Avisos Solicitados por Periodo",
+    x = "Mes",
+    y = "Cantidad de Avisos",
+    color = "Año de Trámite"
+  ) +
+  scale_x_continuous(n.breaks=12) +
+  scale_y_continuous(n.breaks = 10) +
+  theme_minimal(base_size = 14) +                     # Minimal clean theme
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"),  # Center and bold the title
+    axis.text.x = element_text(angle = 45, hjust = 1),      # Rotate x-axis labels for readability
+    panel.grid.minor = element_blank(),                     # Remove minor grid lines
+    legend.position = "top"                                 # Position the legend at the top
+  )
+
+# Print the plot
+print(g)
+
+
+# # Tramites de charos
+# combined_df %>%
+#   arrange(desc(ResAnioMes)) %>%
+#   filter(grepl("Charos", RAZÓN.SOCIAL, ignore.case = TRUE))
+```
+
+## Tiempo de resolución de trámites
+
+```{r}
+diasTramite <- combined_df %>%
+  # filter(grepl("Charos", RAZÓN.SOCIAL, ignore.case = TRUE)) %>%
+  group_by(
+    tiempoRes,
+    # TraAnioMes
+  ) %>%
+  summarise(
+    obs = n()
+  )
+
+diasTramite %>%
+  kbl() %>%
+  kableExtra::kable_classic()
+
+g <- ggplot(diasTramite, aes(x=tiempoRes, y=obs)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(n.breaks = 20) +
+  scale_y_continuous() +
+  labs(
+    title = "Número de Observaciones por Tiempo de Resolución",
+    x = "Tiempo de Resolución (días)",
+    y = "Número de Observaciones"
+  ) +
+  theme_minimal(base_size = 14) +                    # Clean minimal theme
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold"), # Center and bold title
+    axis.text.x = element_text(angle = 45, hjust = 1)     # Tilt x-axis labels for readability
+  )
+g
+
+```
+
+## Compañías que requieren más avisos
+
+```{r}
+
+
+companias <- combined_df %>%
+  group_by(razonSocial) %>%
+  summarise(
+    AAIPS = n(),
+    volumenTotalTons = sum(as.numeric(volumenAvisoTIGIE), na.rm = TRUE) / 1000,
+    tiempoAutorizacion = mean(tiempoRes),
+    topFracciones = paste(
+      unique(fraccionArancelaria)[1:min(2, length(unique(fraccionArancelaria)))],
+      collapse = ", "
+    )
+  ) %>%
+  arrange(desc(AAIPS))
+
+companias[c(1:10), ] %>%
+  kbl(col.names = c("Razón Social", "Cantidad de AAIPS", "Volumen Total (tons)", "Tiempo Resolución", "Top 2 Fracciones Arancelarias")) %>%
+  kableExtra::kable_classic_2()
+
+# maxcompanias <- nrow(companias)
+# 
+# companias[c(I(maxcompanias-10):maxcompanias), ] %>%
+#   kbl(col.names = c("Razón Social", "Cantidad de AAIPS", "Volumen Total (tons)", "Tiempo Resolución", "Top 2 Fracciones Arancelarias")) %>%
+#   kableExtra::kable_classic_2()
+```
+
+
+

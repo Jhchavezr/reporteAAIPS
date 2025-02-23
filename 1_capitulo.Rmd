@@ -1,0 +1,12 @@
+# Capítulo 1: Un poco de historia y contexto formal de los AAIPS
+
+Este es el primer capítulo de nuestro libro. Vamos a explorar **R y RStudio**.
+
+## Conceptos Básicos
+
+Algunas funciones esenciales en R:
+
+```{r}
+x <- c(1, 2, 3, 4, 5)
+mean(x)
+```

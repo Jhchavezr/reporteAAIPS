@@ -1,0 +1,22 @@
+---
+title: "Mi Libro con Bookdown"
+author: "Tu Nombre"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+output:
+  bookdown::gitbook:
+    css: style.css
+  bookdown::pdf_book:
+    keep_tex: true
+  bookdown::epub_book: default
+---
+
+# Introducción
+
+Los aisos automáticos de importación de productos siderúrgicos (AAIPS) son una restricción no arancelaria que se debe cumplir para importar acero o productos siderúrgicos.
+En este reporte es de nuestro interés mostrar:
+
+- Las motivaciones para establecer esta restricción.
+- Los cambios en su cumplimiento.
+- La evolución en las autorizaciones otorgadas por fracción, volumen, origen, entre otros.

@@ -1,0 +1,11 @@
+
+# Capítulo 2: Algunos datos interesantes sobre los AAIPS
+
+Este es el segundo capítulo, donde veremos análisis de datos en R.
+
+## Carga de Datos
+
+```{r}
+data(mtcars)
+summary(mtcars)
+```

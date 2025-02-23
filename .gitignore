@@ -2,7 +2,14 @@
 .RData
 .Rproj.user
 .Rproj
+
+# Bases de datos
 reportesAAIPS/
 AAIPS_data.csv
 *.csv
+
+#Bookdown stuff
 _book/
+README.html
+_bookdown_files/
+ReporteAAIPS_files/

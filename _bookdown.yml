@@ -1,5 +1,5 @@
 book_filename: "ReporteAAIPS"
-chapter_name: "Capítulo "
+chapter_name: ""
 rmd_files:
   - "index.Rmd"
   - "1_capitulo.Rmd"

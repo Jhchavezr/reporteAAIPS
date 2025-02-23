@@ -9,4 +9,7 @@ Algunas funciones esenciales en R:
 ```{r}
 x <- c(1, 2, 3, 4, 5)
 mean(x)
+y <- runif(108,min = 1,max = 10)
+x <- rnorm(108,mean = 5, sd = 2)
+plot(x,y)
 ```

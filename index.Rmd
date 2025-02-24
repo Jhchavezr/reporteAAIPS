@@ -1,15 +1,16 @@
 ---
-title: "Análisis histórico de las autorizaciones de AAIPS"
+title: "Evolución de las autorizaciones de importación de Acero en México 2019 - 2024"
+subtitle: "Tendencias y cambios de los Avisos Automáticos de Importación de Productos Siderúrgicos (AAIPS)"
 author: "Jorge Chávez y Luis Lopez Cepeda"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
 output:
-  bookdown::gitbook:
-    css: style.css
   bookdown::pdf_book:
     keep_tex: true
     latex_engine: xelatex  
+  bookdown::gitbook:
+    css: style.css
   bookdown::epub_book: default
 bibliography: bibliografia.bib
 ---
@@ -24,4 +25,151 @@ En este reporte es de nuestro interés mostrar:
 - La evolución en las autorizaciones otorgadas por fracción, volumen, origen, entre otros.
 
 
+
+## Marco regulatorio de los AAIPS
+
+### Justificación del AAIPS como restricción no arancelaria
+
+ídica en el que se desarrolle la actuación de los diferentes agentes económicos involucrados en el comercio exterior, así como
+contar con reglas claras y precisas para la aplicación de los instrumentos que regulan el comercio exterior e incorporar aquellas
+disposiciones necesarias para la aplicación del Acuerdo de Reglas;
+Que el numeral 8, fracción II del Anexo 2.2.1 del Acuerdo de Reglas, sujeta a las fracciones arancelarias en las que se
+clasifican diversos productos siderúrgicos a la presentación de un aviso automático de importación, cuando se destinen al
+régimen aduanero de importación definitiva;
+Que el 23 de marzo de 2018, el gobierno de Estados Unidos de América (EE.UU.) impuso aranceles del 25% y el 10% a
+determinadas importaciones de acero y aluminio, respectivamente, bajo la Sección 232 de su Ley de Expansión Comercial de
+1962 en donde se estableció para México una suspensión temporal de la aplicación de dicha Sección. Sin embargo, en mayo de
+ese mismo año, EE.UU. determinó extender la aplicación de la medida y, derivado de ello y conforme a la normativa internacional
+aplicable, México impuso aranceles a diversos productos originarios de dicho país como represalia;
+Que derivado de lo anterior, se llevaron a cabo negociaciones bilaterales y como resultado, el 17 de mayo de 2019, EE.UU.
+eliminó dichos aranceles y México retiró las represalias impuestas, con la previsión de que en caso de que las importaciones de
+acero y aluminio registren incrementos sustanciales, el país importador puede solicitar consultas con el país exportador y, de no
+llegarse a un acuerdo, el país importador puede imponer aranceles del 25% para el acero y del 10% para el aluminio, en tanto que
+el país exportador puede aplicar represalias en el mismo sector afectado;
+Que el 27 de febrero de 2024, la Secretaría de Economía y funcionarios de la oficina del Representante Comercial de EE.UU.
+(USTR, por sus siglas en inglés) dialogaron sobre la cooperación entre ambas naciones en materia de comercio de productos
+siderúrgicos con el fin de fortalecer la industria del acero de la región y derivado de ello se advirtió la conveniencia de robustecer
+el control de las importaciones de los productos de acero y aluminio, para lo cual resulta relevante que entre otras acciones,
+México incorpore como parte de los requisitos para la autorización de avisos automáticos de importación de productos
+siderúrgicos a los Certificados de molino y de calidad, según el tipo de mercancía de que se trate, mismos que contienen la
+información del país de fundido y colado del acero;
+Que, derivado de lo anterior, a fin de fortalecer el monitoreo de los avisos automáticos de importación de productos
+siderúrgicos, respecto de las mercancías comprendidas en las fracciones arancelarias a que se refiere el numeral 8, fracción II,
+del Anexo 2.2.1 del Acuerdo de Reglas, resulta necesario actualizar los requisitos de la documentación e información necesarios
+para presentar las solicitudes correspondientes;
+Que a fin de facilitar a los usuarios de comercio exterior el trámite de los avisos a que se refiere el considerando anterior,
+resulta conveniente otorgar a los importadores la opción de inscribirse en el Registro de Importadores de Productos Siderúrgicos,
+que será administrado por la Dirección General de Facilitación Comercial y de Comercio Exterior de la Secretaría de Economía,
+mediante el cual podrán obtener un Aviso automático de importación de productos siderúrgicos por cada fracción arancelaria por
+la que se cumplan los requisitos correspondientes, con vigencia de un año, con la posibilidad de solicitar su renovación, así como
+la autorización de otros avisos automáticos respecto de mercancías clasificadas en fracciones arancelarias que no fueron objeto
+de la solicitud de inscripción correspondiente;
+Que con el fin de contemplar dentro del esquema vigente de los avisos automáticos de importación de productos siderúrgicos
+todas las fracciones arancelarias previstas en la referida Sección 232 y homologar su tratamiento, resulta necesario incorporar 72
+fracciones arancelarias al citado esquema;
+La Secretaría de Economía ha realizado varias modificaciones al acuerdo por el que se establecen reglas y criterios de comercio exterior. Aunque no todas han sido sobre los numerales que marcan los requisitos que se deben cumplir en las solicitudes de AAIPS.
+
+```{r figModificaciones, fig.cap="Modificaciones al acuerdo",echo=FALSE}
+knitr::include_graphics("dofAcuerdo/modificacionesAcuerdo.png")
+```
+
+Aquellos cambios que han modificado los articulos que abordan los requerimientos para el cumplimiento en AAIPS.
+
+Reformas a las reglas
+
+| Fecha de publicación | Artículos     | Comentario  |
+|---|-------|------------|
+|2024-04-15| 2.2.19    | Establece la información que debe contener el certificado de molino y de calidad. falta mencionar que cambio se realizó.|
+|2024-04-15| 2.2.26    | Establece la información que debe ser presentada en la solicitud del AAIPS. |
+|2022-10-10| 2.2.19   | Establece la información que debe contener el certificado de molino y de calidad.  |
+|2022-10-10| 2.2.26    | Establece la información que debe ser presentada en la solicitud del AAIPS.  Falta qué cambio se realizó|
+
+
+
+
 Así citas en el documento [@smith2020data]
+
+
+## Propuesta de estructura de ChatGPT - pendiente revisar
+
+Para presentar un **reporte estructurado** que sea útil para los **gerentes de comercio exterior** de las empresas siderúrgicas, se deben considerar los siguientes aspectos clave:
+
+### **Estructura del Reporte**
+
+#### **1. Portada y Resumen Ejecutivo**
+- **Título:** _Reporte de Avisos Automáticos de Importación de Productos Siderúrgicos (AAIPS) - 2019-2024_
+- **Resumen Ejecutivo:** Breve descripción de la evolución de las autorizaciones, principales tendencias y cambios en las regulaciones publicadas en el DOF.
+- **Objetivo:** Facilitar el análisis de la disponibilidad de insumos siderúrgicos importados y cumplimiento regulatorio.
+- **Fuentes de datos:** SNICE, DOF, bases de datos de AAIPS.
+
+---
+
+#### **2. Indicadores Clave de Desempeño (KPIs)**
+- **Total de AAIPS autorizados por año y mes.**
+- **Tiempo promedio de resolución (en días).**
+- **Principales fracciones arancelarias autorizadas.**
+- **Distribución por país de origen y exportador.**
+- **Volumen total autorizado por fracción arancelaria y NICO.**
+- **Empresas con mayor número de autorizaciones.**
+
+👉 **Formato:** Tablas y gráficos de barras/líneas para visualizar tendencias.
+
+---
+
+#### **3. Análisis de AAIPS por Año y Mes**
+- **Tendencias de solicitud y autorización de AAIPS.**
+- **Comparación anual y mensual de la cantidad de avisos aprobados.**
+- **Volumen importado por periodo.**
+  
+👉 **Formato:** Tabla + gráficos de tendencia.
+
+---
+
+#### **4. Distribución por Fracción Arancelaria y NICO**
+- **Principales fracciones arancelarias autorizadas.**
+- **Volumen por fracción y NICO.**
+- **Descripción de productos más importados.**
+  
+👉 **Formato:** Tablas dinámicas y gráficos circulares/barras.
+
+---
+
+#### **5. Análisis de Países de Origen y Exportadores**
+- **Países con mayor volumen de exportación.**
+- **Variación en los países de origen por año.**
+- **Comparación entre país de origen y país exportador.**
+  
+👉 **Formato:** Mapas de calor y gráficos de barras.
+
+---
+
+#### **6. Principales Empresas Importadoras**
+- **Ranking de empresas con más AAIPS autorizados.**
+- **Volumen autorizado por empresa.**
+- **Distribución por fracción y NICO de cada empresa.**
+  
+👉 **Formato:** Tablas y gráficos de barras.
+
+---
+
+#### **7. Cumplimiento Regulatorio y Publicaciones del DOF**
+- **Principales modificaciones regulatorias (según el DOF).**
+- **Impacto de nuevas reglas en la solicitud de AAIPS.**
+- **Revisión de requisitos y cambios en procedimientos.**
+  
+👉 **Formato:** Tabla resumen de publicaciones relevantes.
+
+---
+
+#### **8. Conclusiones y Recomendaciones**
+- **Resumen de tendencias clave.**
+- **Riesgos y oportunidades para las empresas importadoras.**
+- **Recomendaciones estratégicas para optimizar la gestión de AAIPS.**
+
+---
+
+### **Formato Final**
+- **PDF/Presentación:** Para reportes ejecutivos.
+- **Excel/Dashboard interactivo:** Para análisis detallado.
+
+¿Te gustaría que genere una plantilla de este reporte en **Excel o Dashboard interactivo**? 🚀

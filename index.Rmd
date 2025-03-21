@@ -28,46 +28,23 @@ En este reporte es de nuestro interés mostrar:
 
 ## Marco regulatorio de los AAIPS
 
-### Justificación del AAIPS como restricción no arancelaria
+### Justificación del AAIPS como restricción no arancelaria 
 
-ídica en el que se desarrolle la actuación de los diferentes agentes económicos involucrados en el comercio exterior, así como
-contar con reglas claras y precisas para la aplicación de los instrumentos que regulan el comercio exterior e incorporar aquellas
-disposiciones necesarias para la aplicación del Acuerdo de Reglas;
-Que el numeral 8, fracción II del Anexo 2.2.1 del Acuerdo de Reglas, sujeta a las fracciones arancelarias en las que se
-clasifican diversos productos siderúrgicos a la presentación de un aviso automático de importación, cuando se destinen al
-régimen aduanero de importación definitiva;
-Que el 23 de marzo de 2018, el gobierno de Estados Unidos de América (EE.UU.) impuso aranceles del 25% y el 10% a
-determinadas importaciones de acero y aluminio, respectivamente, bajo la Sección 232 de su Ley de Expansión Comercial de
-1962 en donde se estableció para México una suspensión temporal de la aplicación de dicha Sección. Sin embargo, en mayo de
-ese mismo año, EE.UU. determinó extender la aplicación de la medida y, derivado de ello y conforme a la normativa internacional
-aplicable, México impuso aranceles a diversos productos originarios de dicho país como represalia;
-Que derivado de lo anterior, se llevaron a cabo negociaciones bilaterales y como resultado, el 17 de mayo de 2019, EE.UU.
-eliminó dichos aranceles y México retiró las represalias impuestas, con la previsión de que en caso de que las importaciones de
-acero y aluminio registren incrementos sustanciales, el país importador puede solicitar consultas con el país exportador y, de no
-llegarse a un acuerdo, el país importador puede imponer aranceles del 25% para el acero y del 10% para el aluminio, en tanto que
-el país exportador puede aplicar represalias en el mismo sector afectado;
-Que el 27 de febrero de 2024, la Secretaría de Economía y funcionarios de la oficina del Representante Comercial de EE.UU.
-(USTR, por sus siglas en inglés) dialogaron sobre la cooperación entre ambas naciones en materia de comercio de productos
-siderúrgicos con el fin de fortalecer la industria del acero de la región y derivado de ello se advirtió la conveniencia de robustecer
-el control de las importaciones de los productos de acero y aluminio, para lo cual resulta relevante que entre otras acciones,
-México incorpore como parte de los requisitos para la autorización de avisos automáticos de importación de productos
-siderúrgicos a los Certificados de molino y de calidad, según el tipo de mercancía de que se trate, mismos que contienen la
-información del país de fundido y colado del acero;
-Que, derivado de lo anterior, a fin de fortalecer el monitoreo de los avisos automáticos de importación de productos
-siderúrgicos, respecto de las mercancías comprendidas en las fracciones arancelarias a que se refiere el numeral 8, fracción II,
-del Anexo 2.2.1 del Acuerdo de Reglas, resulta necesario actualizar los requisitos de la documentación e información necesarios
-para presentar las solicitudes correspondientes;
-Que a fin de facilitar a los usuarios de comercio exterior el trámite de los avisos a que se refiere el considerando anterior,
-resulta conveniente otorgar a los importadores la opción de inscribirse en el Registro de Importadores de Productos Siderúrgicos,
-que será administrado por la Dirección General de Facilitación Comercial y de Comercio Exterior de la Secretaría de Economía,
-mediante el cual podrán obtener un Aviso automático de importación de productos siderúrgicos por cada fracción arancelaria por
-la que se cumplan los requisitos correspondientes, con vigencia de un año, con la posibilidad de solicitar su renovación, así como
-la autorización de otros avisos automáticos respecto de mercancías clasificadas en fracciones arancelarias que no fueron objeto
-de la solicitud de inscripción correspondiente;
-Que con el fin de contemplar dentro del esquema vigente de los avisos automáticos de importación de productos siderúrgicos
-todas las fracciones arancelarias previstas en la referida Sección 232 y homologar su tratamiento, resulta necesario incorporar 72
-fracciones arancelarias al citado esquema;
-La Secretaría de Economía ha realizado varias modificaciones al acuerdo por el que se establecen reglas y criterios de comercio exterior. Aunque no todas han sido sobre los numerales que marcan los requisitos que se deben cumplir en las solicitudes de AAIPS.
+La siguiente justificación se fundamenta en lo establecido en la reforma del Acuerdo de Secretaría de Economía en abril 2024.
+
+-En Mayo de 2018, Estados Unidos impuso aranceles del 25% sobre el acero proveniente de México y como represalia el país impuso aranceles a diversos productos originarios de Estados Unidos. Sin embargo en mayo de 2019 posterior a negociaciones bilaterales se retiraron las barreras arancelarias implementadas por ambos paises. Sin embargo, si se presentará un incremento sustancial de las importaciones de acero, el país afectado podría imponer de nuevo dichas barreras.
+
+-La secretaría de economía de México y la USTR de Estados Unidos establecieron en febrero de 2024 la necesidad de incrementar el control de las importaciones de acero. En dicho dialogo, se estableció como una acción conveniente que México solicite el certificado de molino y de calidad como requisito para la autorización del aviso automático.
+También pareció pertinente actualizar los requisitos de documentación e información. 
+
+Sin embargo también se creó la modalidad de inscribirse en un Registro de Importadores de Productos Siderúrgicos con el fin de facilitar el trámite a los usuarios de comercio exterior.
+
+Además se incorporaron 72 fracciones arancelarias más en dicho requerimiento.
+
+Se han hecho muchos cambios en el acuerdo de la Secretaría de Economía, aunque no todos se refieren a los requisitos de los AAIPS.
+
+A continuación se presenta el listado de las últimas modificaciones. De las cuales, la reforma de Octubre de 2022 y de Abril de 2024 han afectado la manera en que se presenta el trámite.
+
 
 ```{r figModificaciones, fig.cap="Modificaciones al acuerdo",echo=FALSE}
 knitr::include_graphics("dofAcuerdo/modificacionesAcuerdo.png")

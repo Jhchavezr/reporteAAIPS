@@ -15,12 +15,21 @@ Este es el segundo capítulo, donde veremos análisis de datos en R.
 
 El total de AAIPS autorizados es de $T = F_a - F_i$ dando como resultado `r (mtcars)[1,1]`
 
-## Carga de Datos
+## Análisis de las autorizaciones de AAIPS del lustro 2019 - 2024 
 
 ```{r}
-data(mtcars)
-summary(mtcars)
-head(mtcars)
+tail(df$fechaResolucion)
+df$fechaResolucion2 <- as.Date(as.numeric(df$fechaResolucion), origin = "1899-12-30")
+
+dfFecha <- df %>%
+  group_by(
+    month(fechaResolucion2),
+    year(fechaResolucion2)
+  ) %>%
+  summarise(
+    AAIPS = n()
+  ) %>%
+  arrange("year(fechaResolucion2)")
 
 ```
 

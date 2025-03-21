@@ -59,7 +59,7 @@ for (file in files) {
 # Display the combined data frame
 nrow(combined_df1)
 
-tail(combined_df1)
+head(combined_df1)
 
 
 colnames(combined_df1) <- c(
@@ -93,10 +93,11 @@ maindf <- combined_df1 %>%
     -folioTramite2
   )
 
+## Hay que corregir lo de las fechas antes de grabar.
 
 colSums(is.na(maindf))
-names(maindf)
-write.csv(maindf, "AAIPS_data.csv")
+tail(maindf)
+# write.csv(maindf, "AAIPS_data.csv")
 
 ```
 

@@ -4,4 +4,5 @@ rmd_files:
   - "index.Rmd"
   - "1_capitulo.Rmd"
   - "2_capitulo.Rmd"
+  - "3_capitulo.Rmd"
 delete_merged_file: true

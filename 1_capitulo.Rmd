@@ -1,19 +1,55 @@
 # Capítulo 1: Un poco de historia y contexto formal de los AAIPS
 
-Este es el primer capítulo de nuestro libro. Vamos a explorar **R y RStudio**.
 
-## Conceptos Básicos
 
-Algunas funciones esenciales en R:
+## Historia
 
-```{r}
-x <- c(1, 2, 3, 4, 5)
-mean(x)
-y <- runif(158,min = 1,max = 10)
-x <- rnorm(158,mean = 5, sd = 2)
-plot(x,y)
+Hay que solicitar la colaboraci'on de alguien que tiene un perfil de experiencia y documentaci'on al respecto.
+
+
+
+## Contexto actual
+
+Las solicitudes de AAIPS se asignan a las delegaciones de Secretar'ia de Economia conforme al domicilio fiscal registrado del importador.
+
+Aunque hay muchas modalidades, los AAIPS usualmente se solicitan para importaciones definitivas (A1).
+
+
+## Marco regulatorio de los AAIPS
+
+### Justificación del AAIPS como restricción no arancelaria 
+
+La siguiente justificación se fundamenta en lo establecido en la reforma del Acuerdo de Secretaría de Economía en abril 2024.
+
+-En Mayo de 2018, Estados Unidos impuso aranceles del 25% sobre el acero proveniente de México y como represalia el país impuso aranceles a diversos productos originarios de Estados Unidos. Sin embargo en mayo de 2019 posterior a negociaciones bilaterales se retiraron las barreras arancelarias implementadas por ambos paises. Sin embargo, si se presentará un incremento sustancial de las importaciones de acero, el país afectado podría imponer de nuevo dichas barreras.
+
+-La secretaría de economía de México y la USTR de Estados Unidos establecieron en febrero de 2024 la necesidad de incrementar el control de las importaciones de acero. En dicho dialogo, se estableció como una acción conveniente que México solicite el certificado de molino y de calidad como requisito para la autorización del aviso automático.
+También pareció pertinente actualizar los requisitos de documentación e información. 
+
+Sin embargo también se creó la modalidad de inscribirse en un Registro de Importadores de Productos Siderúrgicos con el fin de facilitar el trámite a los usuarios de comercio exterior.
+
+Además se incorporaron 72 fracciones arancelarias más en dicho requerimiento.
+
+Se han hecho muchos cambios en el acuerdo de la Secretaría de Economía, aunque no todos se refieren a los requisitos de los AAIPS.
+
+A continuación se presenta el listado de las últimas modificaciones. De las cuales, la reforma de Octubre de 2022 y de Abril de 2024 han afectado la manera en que se presenta el trámite.
+
+
+```{r figModificaciones, fig.cap="Modificaciones al acuerdo",echo=FALSE}
+knitr::include_graphics("dofAcuerdo/modificacionesAcuerdo.png")
 ```
 
-$$
-T_{AAIPS} = Fecha_{autorizacion} - Fecha_{ingreso} 
-$$
+Aquellos cambios que han modificado los articulos que abordan los requerimientos para el cumplimiento en AAIPS.
+
+Reformas a las reglas
+
+| Fecha de publicación | Artículos     | Comentario  |
+|---|-------|------------|
+|2024-04-15| 2.2.19    | Establece la información que debe contener el certificado de molino y de calidad. falta mencionar que cambio se realizó.|
+|2024-04-15| 2.2.26    | Establece la información que debe ser presentada en la solicitud del AAIPS. |
+|2022-10-10| 2.2.19   | Establece la información que debe contener el certificado de molino y de calidad.  |
+|2022-10-10| 2.2.26    | Establece la información que debe ser presentada en la solicitud del AAIPS.  Falta qué cambio se realizó|
+
+
+
+Así citas en el documento [@smith2020data]

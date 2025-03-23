@@ -1,15 +1,36 @@
----
-output: html_document
-editor_options: 
-  chunk_output_type: inline
----
-
-```{r echo=FALSE}
-df <- read.csv(file = "AAIPS_data.csv")
-names(df)
+```{r}
+library(dplyr)
 ```
 
-# Capítulo 2: Algunos datos interesantes sobre los AAIPS
+
+```{r echo=FALSE}
+# df <- read.csv(file = "AAIPS_data.csv") 
+df1 <- df %>%
+  mutate(fechaResolucionClean = case_when(
+    grepl("^\\d{5}\\.", fechaResolucion) ~ 
+      as.POSIXct(as.numeric(fechaResolucion) * 86400, origin = "1899-12-30", tz = "UTC"), 
+    TRUE ~ # Convert Excel dates
+   as.POSIXct(fechaResolucion, format = "%d/%m/%Y %H:%M:%S", tz = "UTC")
+   ),
+   fechaTramiteClean = case_when(
+    grepl("^\\d{5}\\.", fechaTramite) ~ 
+      as.POSIXct(as.numeric(fechaTramite) * 86400, origin = "1899-12-30", tz = "UTC"), 
+    TRUE ~ # Convert Excel dates
+   as.POSIXct(fechaTramite, format = "%d/%m/%Y %H:%M:%S", tz = "UTC")
+   )
+   
+   )
+
+
+head(df1$fechaResolucionClean)
+tail(df1$fechaTramiteClean)
+df1 %>% filter(is.na(fechaResolucionClean) |is.na(fechaTramiteClean) )
+
+names(df)
+
+```
+
+# Capítulo 2: Indicadores Claves de Desempeno de los AAIPS (KPIs)
 
 Este es el segundo capítulo, donde veremos análisis de datos en R.
 
@@ -18,7 +39,7 @@ El total de AAIPS autorizados es de $T = F_a - F_i$ dando como resultado `r (mtc
 ## Análisis de las autorizaciones de AAIPS del lustro 2019 - 2024 
 
 ```{r}
-tail(df$fechaResolucion)
+
 df$fechaResolucion2 <- as.Date(as.numeric(df$fechaResolucion), origin = "1899-12-30")
 
 dfFecha <- df %>%

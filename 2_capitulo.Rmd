@@ -1,36 +1,30 @@
+# Capítulo 2: Indicadores Claves de Desempeno de los AAIPS (KPIs)
+```{r include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+```
+
+
 ```{r}
 library(dplyr)
+library(lubridate)
+library(kableExtra)
+library(ggplot2)
 ```
 
 
 ```{r echo=FALSE}
-# df <- read.csv(file = "AAIPS_data.csv") 
-df1 <- df %>%
-  mutate(fechaResolucionClean = case_when(
-    grepl("^\\d{5}\\.", fechaResolucion) ~ 
-      as.POSIXct(as.numeric(fechaResolucion) * 86400, origin = "1899-12-30", tz = "UTC"), 
-    TRUE ~ # Convert Excel dates
-   as.POSIXct(fechaResolucion, format = "%d/%m/%Y %H:%M:%S", tz = "UTC")
-   ),
-   fechaTramiteClean = case_when(
-    grepl("^\\d{5}\\.", fechaTramite) ~ 
-      as.POSIXct(as.numeric(fechaTramite) * 86400, origin = "1899-12-30", tz = "UTC"), 
-    TRUE ~ # Convert Excel dates
-   as.POSIXct(fechaTramite, format = "%d/%m/%Y %H:%M:%S", tz = "UTC")
-   )
-   
-   )
 
-
-head(df1$fechaResolucionClean)
-tail(df1$fechaTramiteClean)
-df1 %>% filter(is.na(fechaResolucionClean) |is.na(fechaTramiteClean) )
-
-names(df)
+df <- read.csv(file = "AAIPS_data.csv")
+# head(df1$fechaResolucionClean)
+# tail(df1$fechaTramiteClean)
+# df1 %>% filter(is.na(fechaResolucionClean) |is.na(fechaTramiteClean) )
 
 ```
 
-# Capítulo 2: Indicadores Claves de Desempeno de los AAIPS (KPIs)
 
 Este es el segundo capítulo, donde veremos análisis de datos en R.
 
@@ -40,18 +34,22 @@ El total de AAIPS autorizados es de $T = F_a - F_i$ dando como resultado `r (mtc
 
 ```{r}
 
-df$fechaResolucion2 <- as.Date(as.numeric(df$fechaResolucion), origin = "1899-12-30")
-
-dfFecha <- df %>%
+dfMonth <- df1 %>%
   group_by(
-    month(fechaResolucion2),
-    year(fechaResolucion2)
+    month(fechaResolucionClean),
+    year(fechaResolucionClean)
   ) %>%
   summarise(
     AAIPS = n()
   ) %>%
-  arrange("year(fechaResolucion2)")
+  arrange("year(fechaResolucionClean)")
 
+# names(dfMonth) <- c("Mes", "Anio", "AAIPS")
+
+g <- ggplot(dfMonth, aes(x=as.factor(Mes), y=AAIPS, color=as.factor(Anio),group=as.factor(Anio) )) +
+  geom_point() +
+  geom_line()
+g
 ```
 
 

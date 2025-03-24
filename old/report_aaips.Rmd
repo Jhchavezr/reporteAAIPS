@@ -14,6 +14,7 @@ library(dplyr)
 library(lubridate)
 library(kableExtra)
 library(ggplot2)
+library(tidyr)
 ```
 
 ## Lectura de excel
@@ -30,73 +31,88 @@ files <- list.files(path = "reportesAAIPS/", full.names = TRUE,recursive = T)
 ## Integración de base de datos
 
 ```{r}
-combined_df1 <- data.frame()
-
+# combined_df1 <- data.frame()
 # 
-# # Loop through the files and read them
-for (file in files) {
-  # Read the data ensuring at least 14 columns
-  df <- read_xlsx(
-    path = file,
-    sheet = 1,
-    skip = 6,
-    col_names = TRUE,
-    trim_ws = TRUE,
-    progress = TRUE,
-    col_types = rep("text", min(14, length(readxl::read_xlsx(file, n_max = 1))))
-  )
-
-  # Remove columns containing "NICO" in their names
-  df <- df %>% select(-matches("NICO"))
-
-  print(file)
-  print(names(df))
-
-  # Combine the data
-  combined_df1 <- bind_rows(combined_df1, df)
-}
-
-# Display the combined data frame
-nrow(combined_df1)
-
-head(combined_df1)
-
-
-colnames(combined_df1) <- c(
-  # "id",                      # "X" 1
-  "folioTramite",            # "FOLIO.DE.TRÁMITE"2
-  "razonSocial",             # "RAZÓN.SOCIAL"3
-  "fechaTramite",            # "FECHA.DE.TRÁMITE"4
-  "volumenAvisoTIGIE",       # "VOLUMEN.DEL.AVISO..UdM.TIGIE."5
-  "fraccionArancelaria",     # "FRACCIÓN.ARANCELARIA"6
-  "descripcionMercancia",    # "DESCRIPCIÓN.DE.LA.MERCANCÍA"7
-  "paisOrigen",              # "PAÍS.DE.ORIGEN"8
-  "paisExportador",          # "PAÍS.EXPORTADOR"9
-  "numeroAviso",             # "NÚMERO.DE.AVISO"10
-  "fechaResolucion",         # "FECHA.DE.RESOLUCIÓN"11
-  "inicioVigencia",          # "INICIO.DE.VIGENCIA"12
-  "finVigencia",             # "FIN.DE.VIGENCIA"13
-  "folioTramite2",
-  "volumenAvisoTIGIE2",      # "VOLUMEN.DEL.AVISO..UdM.TIGIE..1"14
-  "descripcionFraccion"     # "DESCRIPCIÓN.FRACCIÓN"15
-)
-
-names(combined_df1)
-maindf <- combined_df1 %>%
-  mutate(
-   folioTramite = ifelse(is.na(folioTramite),folioTramite2,folioTramite),
-   volumenAvisoTIGIE = ifelse(is.na(volumenAvisoTIGIE),volumenAvisoTIGIE2,volumenAvisoTIGIE),
-   descripcionGral = ifelse(is.na(descripcionMercancia),descripcionFraccion,descripcionMercancia),
-  ) %>%
-  select(
-    -volumenAvisoTIGIE2,
-    -folioTramite2
-  )
-
-## Hay que corregir lo de las fechas antes de grabar.
-
-colSums(is.na(maindf))
-tail(maindf)
+# # 
+# # # Loop through the files and read them
+# for (file in files) {
+#   # Read the data ensuring at least 14 columns
+#   df <- read_xlsx(
+#     path = file,
+#     sheet = 1,
+#     skip = 6,
+#     col_names = TRUE,
+#     trim_ws = TRUE,
+#     progress = TRUE,
+#     col_types = rep("text", min(14, length(readxl::read_xlsx(file, n_max = 1))))
+#   )
+# 
+#   # Remove columns containing "NICO" in their names
+#   df <- df %>% select(-matches("NICO"))
+# 
+#   print(file)
+#   print(names(df))
+# 
+#   # Combine the data
+#   combined_df1 <- bind_rows(combined_df1, df)
+# }
+# 
+# # Display the combined data frame
+# nrow(combined_df1)
+# 
+# head(combined_df1)
+# 
+# 
+# colnames(combined_df1) <- c(
+#   # "id",                      # "X" 1
+#   "folioTramite",            # "FOLIO.DE.TRÁMITE"2
+#   "razonSocial",             # "RAZÓN.SOCIAL"3
+#   "fechaTramite",            # "FECHA.DE.TRÁMITE"4
+#   "volumenAvisoTIGIE",       # "VOLUMEN.DEL.AVISO..UdM.TIGIE."5
+#   "fraccionArancelaria",     # "FRACCIÓN.ARANCELARIA"6
+#   "descripcionMercancia",    # "DESCRIPCIÓN.DE.LA.MERCANCÍA"7
+#   "paisOrigen",              # "PAÍS.DE.ORIGEN"8
+#   "paisExportador",          # "PAÍS.EXPORTADOR"9
+#   "numeroAviso",             # "NÚMERO.DE.AVISO"10
+#   "fechaResolucion",         # "FECHA.DE.RESOLUCIÓN"11
+#   "inicioVigencia",          # "INICIO.DE.VIGENCIA"12
+#   "finVigencia",             # "FIN.DE.VIGENCIA"13
+#   "folioTramite2",
+#   "volumenAvisoTIGIE2",      # "VOLUMEN.DEL.AVISO..UdM.TIGIE..1"14
+#   "descripcionFraccion"     # "DESCRIPCIÓN.FRACCIÓN"15
+# )
+# 
+# names(combined_df1)
+# 
+# maindf <- combined_df1 %>%
+#   mutate(
+#    folioTramite = ifelse(is.na(folioTramite),folioTramite2,folioTramite),
+#    volumenAvisoTIGIE = ifelse(is.na(volumenAvisoTIGIE),volumenAvisoTIGIE2,volumenAvisoTIGIE),
+#    descripcionGral = ifelse(is.na(descripcionMercancia),descripcionFraccion,descripcionMercancia),
+#   ) %>%
+#   select(
+#     -volumenAvisoTIGIE2,
+#     -folioTramite2
+#   ) %>%
+#   mutate(fechaResolucionClean = case_when(
+#     grepl("^\\d{5}\\.", fechaResolucion) ~ 
+#       as.POSIXct(as.numeric(fechaResolucion) * 86400, origin = "1899-12-30", tz = "UTC"), 
+#     TRUE ~ # Convert Excel dates
+#    as.POSIXct(fechaResolucion, format = "%d/%m/%Y %H:%M:%S", tz = "UTC")
+#    ),
+#    fechaTramiteClean = case_when(
+#     grepl("^\\d{5}\\.", fechaTramite) ~ 
+#       as.POSIXct(as.numeric(fechaTramite) * 86400, origin = "1899-12-30", tz = "UTC"), 
+#     TRUE ~ # Convert Excel dates
+#    as.POSIXct(fechaTramite, format = "%d/%m/%Y %H:%M:%S", tz = "UTC")
+#    )   )
+# 
+# head(maindf)
+# tail(maindf)
+# ## Hay que corregir lo de las fechas antes de grabar.
+# 
+# colSums(is.na(maindf))
+# 
 # write.csv(maindf, "AAIPS_data.csv")
 
 ```
@@ -104,39 +120,65 @@ tail(maindf)
 ## Data Organisation
 
 ```{r}
-combined_df <- read.csv("AAIPS_data.csv")
-names(combined_df)
+df <- read.csv("AAIPS_data.csv")
+names(df)
 
-
-combined_df <- combined_df %>%
+df <- df %>%
   mutate(
-    fechaRes = as.POSIXct(FECHA.DE.RESOLUCIÓN, format = "%d/%m/%Y %H:%M:%S"),
-    fechaTra = as.POSIXct(FECHA.DE.TRÁMITE, format = "%d/%m/%Y %H:%M:%S")
-  ) %>%
-  mutate(
-    ResAnioMes = as.numeric(paste0(year(fechaRes), sprintf("%02d", month(fechaRes)))),
-    TraAnioMes = as.numeric(paste0(year(fechaTra), sprintf("%02d", month(fechaTra)))),
-    tiempoRes = round(difftime(fechaRes,fechaTra, units = "days"),0),
-    anioTra = as.numeric(year(fechaTra)),
-    mesTra =as.numeric(month(fechaTra))
+    ResAnioMes = as.numeric(paste0(year(fechaResolucionClean), sprintf("%02d", month(fechaResolucionClean)))),
+    TraAnioMes = as.numeric(paste0(year(fechaTramiteClean), sprintf("%02d", month(fechaTramiteClean)))),
+    tiempoRes = difftime(fechaResolucionClean,fechaTramiteClean, units = "days"),
+    anioTra = as.numeric(year(fechaTramiteClean)),
+    mesTra =as.numeric(month(fechaTramiteClean))
   )
-# Estudio sobre los tiempos de resolución de trámites de AAIPS
+summary_table <- df %>%
+  filter(!is.na(anioTra)) %>%
+  group_by(anioTra) %>%
+  summarise(
+    min = min(as.numeric(tiempoRes), na.rm = TRUE),
+    max = max(as.numeric(tiempoRes), na.rm = TRUE),
+    avg = mean(as.numeric(tiempoRes), na.rm = TRUE)
+  )
+summary_table
+
+min_df <- aggregate(as.numeric(tiempoRes) ~ anioTra, data = df, FUN = min, na.rm = TRUE)
+max_df <- aggregate(as.numeric(tiempoRes) ~ anioTra, data = df, FUN = max, na.rm = TRUE)
+avg_df <- aggregate(as.numeric(tiempoRes) ~ anioTra, data = df, FUN = mean, na.rm = TRUE)
+
+# Rename columns
+colnames(min_df)[2] <- "min"
+colnames(max_df)[2] <- "max"
+colnames(avg_df)[2] <- "avg"
+
+# Merge all three
+summary_table <- Reduce(function(x, y) merge(x, y, by = "anioTra"), list(min_df, max_df, avg_df))
+
+  # Estudio sobre los tiempos de resolución de trámites de AAIPS
 # Relación con razón social, fracción arancelaria, año, etc.
 
-result_df <- combined_df %>%
-  group_by(TraAnioMes, anioTra, mesTra) %>%
-  summarise(
-    tramites = n()
-  ) %>%
-  as.data.frame()
+result_df <- df %>%
+  dplyr::filter(
+    !is.na(anioTra)
+    # !is.na(tiempoRes)
+    ) %>%
+  dplyr::group_by(
+                 TraAnioMes,
+                 anioTra,
+                 mesTra
+                 ) %>%
+  dplyr::summarise(
+    tramites = n(),
+    min = min(as.numeric(tiempoRes), na.rm = TRUE),
+    max = max(as.numeric(tiempoRes), na.rm = TRUE),
+    avg = mean(as.numeric(tiempoRes), na.rm = TRUE)
+  )  
   
+result_df
 
-result_df %>%
-    rbind(., c("Total", "Anio","Mes", sum(as.numeric(.[,4])))) %>%
-  kbl(col.names = c("Periodo", "Anio", "Mes", "Cantidad de AAIPS")) %>%
-  kableExtra::kable_classic()
 
-g <- ggplot(result_df, aes(x = as.POSIXct(mesTra, format = "%m"), y = as.numeric(tramites), group = as.character(anioTra), color = as.character(anioTra))) +
+g <- ggplot(result_df, aes(x = as.POSIXct(mesTra, format = "%m"), y = as.numeric(tramites), 
+                           group = as.character(anioTra), 
+                           color = as.character(anioTra))) +
   geom_line(linewidth = 1) +                          # Add a line with grouping by anioTra
   geom_point(size = 2) +                              # Points for visibility
   labs(
@@ -158,17 +200,56 @@ g <- ggplot(result_df, aes(x = as.POSIXct(mesTra, format = "%m"), y = as.numeric
 # Print the plot
 print(g)
 
+# Prepare data for plotting
+plot_df <- result_df %>%
+  select(TraAnioMes, min, avg, max, anioTra, mesTra) %>%
+  pivot_longer(cols = c(min, avg, max),
+               names_to = "Stat",
+               values_to = "Tiempo")
+
+# Annual averages for horizontal lines
+avg_lines <- result_df %>%
+  group_by(anioTra) %>%
+  summarise(anual_avg = mean(avg, na.rm = TRUE))
+
+# Plot
+ggplot(plot_df, aes(x = mesTra, 
+                    y = Tiempo,
+                    color = Stat,
+                    shape = Stat,
+                    group = Stat)) +
+  geom_point(size = 3) +
+  geom_hline(data = avg_lines,
+             aes(yintercept = anual_avg),
+             linetype = "dashed",
+             color = "black") +
+  scale_y_continuous(limits = c(0, 50)) +
+  labs(
+    x = "Periodo",
+    y = "Tiempo de Resolución (días)",
+    shape = "",
+    color = "",
+    title = "Tiempos mensuales con promedio anual"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "right",
+    panel.grid.minor = element_blank()
+  ) +
+  facet_wrap(~anioTra, scales = "free_y")
+
 
 # # Tramites de charos
-# combined_df %>%
+# df %>%
 #   arrange(desc(ResAnioMes)) %>%
-#   filter(grepl("Charos", RAZÓN.SOCIAL, ignore.case = TRUE))
+#   filter(grepl("Charos", razonSocial, ignore.case = TRUE))
 ```
 
 ## Tiempo de resolución de trámites
 
 ```{r}
-diasTramite <- combined_df %>%
+diasTramite <- df %>%
   # filter(grepl("Charos", RAZÓN.SOCIAL, ignore.case = TRUE)) %>%
   group_by(
     tiempoRes,
@@ -182,24 +263,50 @@ diasTramite %>%
   kbl() %>%
   kableExtra::kable_classic()
 
-g <- ggplot(diasTramite, aes(x=tiempoRes, y=obs)) +
-  geom_line() +
-  geom_point() +
-  scale_x_continuous(n.breaks = 20) +
-  scale_y_continuous() +
+df %>%
+  filter(!is.na(tiempoRes)) %>%
+  mutate(tiempoRes = as.numeric(tiempoRes)) %>%
+  ggplot(aes(x = tiempoRes)) +
+  geom_histogram(binwidth = 1, fill = "steelblue", color = "white") +
+  scale_x_continuous(n.breaks = 45) +
   labs(
-    title = "Número de Observaciones por Tiempo de Resolución",
+    title = "Distribución de Tiempos de Resolución",
     x = "Tiempo de Resolución (días)",
     y = "Número de Observaciones"
   ) +
-  theme_minimal(base_size = 14) +                    # Clean minimal theme
+  theme_minimal(base_size = 14) +
   theme(
-    plot.title = element_text(hjust = 0.5, face = "bold"), # Center and bold title
-    axis.text.x = element_text(angle = 45, hjust = 1)     # Tilt x-axis labels for readability
+    plot.title = element_text(hjust = 0.5, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
   )
-g
-
 ```
+### Análisis de boxplot
+```{r}
+
+# Make sure tiempoRes is numeric and filter NA values
+df_clean <- df %>%
+  filter(!is.na(TraAnioMes), !is.na(tiempoRes)) %>%
+  mutate(tiempoRes = as.numeric(tiempoRes))
+
+# Plot quantiles using boxplots
+ggplot(df_clean, aes(x = as.factor(mesTra), 
+                     y = tiempoRes,
+                     group = TraAnioMes,
+                     color =as.factor(mesTra))) +
+  geom_boxplot() +
+  scale_y_continuous(limits = c(0, 15)) +
+  labs(
+    title = "Distribución de Tiempo de Resolución por Periodo",
+    x = "Mes",
+    y = "Tiempo de Resolución (días)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),legend.position = "top"
+  ) +
+  facet_wrap(~anioTra)
+```
+
 
 ## Compañías que requieren más avisos
 

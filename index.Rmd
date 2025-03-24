@@ -8,11 +8,16 @@ documentclass: book
 output:
   bookdown::pdf_book:
     keep_tex: true
-    latex_engine: xelatex  
+    latex_engine: xelatex
   bookdown::gitbook:
     css: style.css
   bookdown::epub_book: default
 bibliography: bibliografia.bib
+knitr:
+  opts_chunk:
+    echo: false
+    message: false
+    warning: false
 ---
 
 # Introducción {-}
